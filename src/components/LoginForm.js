@@ -3,6 +3,7 @@ import React, {useState} from 'react'
 import { auth } from '../utils/firebase';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { validateEmail } from '../utils/validations'
+import Toast from 'react-native-toast-message';
 
 export default function LoginForm(props) {
     const {changeForm} = props;
@@ -15,6 +16,11 @@ export default function LoginForm(props) {
             // Login
             const user = userCredential.user;
             console.log(user);
+            Toast.show({
+                type: 'success',
+                text1: 'Hola',
+                text2: 'Te has logiado correctamente 👋'
+              });
           })
           .catch((error) => {
             const errorCode = error.code;

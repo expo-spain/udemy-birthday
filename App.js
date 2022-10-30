@@ -3,6 +3,7 @@ import {SafeAreaView, Text, View, StyleSheet, StatusBar, TouchableOpacity} from 
 import { auth } from './src/utils/firebase';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Auth from './src/components/Auth';
+import Toast from 'react-native-toast-message';
 
 export default function App() {
   const [user, setUser] = useState(undefined);
@@ -23,6 +24,7 @@ export default function App() {
       <SafeAreaView style={styles.background}>
           {user ? <Logout /> : <Auth/>}
       </SafeAreaView>
+      <Toast />
     </>
   );
 }
