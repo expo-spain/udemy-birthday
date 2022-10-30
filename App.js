@@ -1,10 +1,51 @@
-import React from 'react';
-import {SafeAreaView, Text, View } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, Text, View, StyleSheet, StatusBar, TouchableOpacity} from 'react-native';
+import { auth } from './src/utils/firebase';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import Auth from './src/components/Auth';
 
 export default function App() {
+  const [user, setUser] = useState(undefined);
+  const auth = getAuth();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (response) => {
+      setUser(response);
+    });
+  }, [])
+
+  if (user === undefined) return null;
+  
+
   return (
-    <SafeAreaView>
-        <Text>Hello World</Text>
-    </SafeAreaView>
+    <>
+      <StatusBar  barStyle="light-content"  />
+      <SafeAreaView style={styles.background}>
+          {user ? <Logout /> : <Auth/>}
+      </SafeAreaView>
+    </>
   );
 }
+
+
+function Logout() {
+  const logout = () => {
+    auth.signOut();
+  }
+
+  return (
+    <View>
+      <Text>Logout</Text>
+      <TouchableOpacity onPress={logout}>
+        <Text>Cerrar Sesion</Text>
+      </TouchableOpacity>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({ 
+     background : {
+          backgroundColor: '#15212b',
+          height: '100%'
+     }
+});
